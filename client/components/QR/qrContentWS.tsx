@@ -1,5 +1,5 @@
-import { StyleSheet, ActivityIndicator, View, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { StyleSheet, ActivityIndicator, View } from "react-native";
+import React from "react";
 import { ThemedText } from "@/components/themed-text";
 import { useSession } from "@/components/providers/SessionProvider";
 import { useQRCodeWS } from "@/hooks/useQRCodeWS";
@@ -12,27 +12,6 @@ const QrContentWS = () => {
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
   const { qr } = useQRCodeWS(session);
-
-  const [timeLeft, setTimeLeft] = useState(60);
-
-  useEffect(() => {
-    // Synchronize countdown with server timestamp
-    const calculateTimeLeft = () => {
-      if (qr?.generatedAt) {
-        const elapsed = Math.floor((Date.now() - qr.generatedAt) / 1000);
-        const remaining = Math.max(0, 60 - (elapsed % 60));
-        setTimeLeft(remaining);
-      }
-    };
-
-    calculateTimeLeft();
-    const timer = setInterval(() => {
-      calculateTimeLeft();
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [qr?.generatedAt, qr?.uuid]);
-
   if (!qr?.uuid) {
     return (
       <View style={styles.qrCenter}>
@@ -46,16 +25,6 @@ const QrContentWS = () => {
       <View style={styles.qrBox}>
         <QRCode value={qr.uuid} size={220} />
       </View>
-      <Text
-        style={{
-          color: c.text.primary,
-          fontSize: 15,
-          fontFamily: "generalMedium",
-          marginTop: 10,
-        }}
-      >
-        (WebSocket) Auto-refreshes in {timeLeft}s
-      </Text>
     </View>
   );
 };

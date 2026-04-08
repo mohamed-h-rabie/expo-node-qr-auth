@@ -21,7 +21,7 @@ const GradientCircle = () => {
       -1, // infinite
       false // no reverse
     );
-  }, []);
+  }, [rotation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotation.value}deg` }],

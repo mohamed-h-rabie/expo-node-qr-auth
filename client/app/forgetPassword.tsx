@@ -2,38 +2,38 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import Input from "@/components/ui/Input";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useRouter } from "expo-router";
-import useSignIn from "@/hooks/useSignIn";
+import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import useForgetPassword from "@/hooks/useForgetPassword";
 import useTheme from "@/hooks/useTheme";
 import { Colors } from "@/constants/theme";
-import signIn from "./sign-in";
-const forgetPassword = () => {
+const ForgetPassword = () => {
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
   const router = useRouter();
-  const { mutate: forgetPassword, isPending, error: forgetError } = useForgetPassword();
+  const {
+    mutate: sendForgetPasswordEmail,
+    isPending,
+    error: forgetError,
+  } = useForgetPassword();
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onChange", // 👈 IMPORTANT
+    mode: "onChange",
     defaultValues: {
       email: "",
     },
   });
   const onSubmit = (data: { email: string }) => {
-    forgetPassword(data);
+    sendForgetPasswordEmail(data);
   };
   return (
     <View
@@ -52,7 +52,9 @@ const forgetPassword = () => {
         strokeWidth={3}
       />
       <View>
-        <Text style={[styles.headerText, { color: c.text.primary }]}>Forgot password</Text>
+        <Text style={[styles.headerText, { color: c.text.primary }]}>
+          Forgot password
+        </Text>
         <Text style={[styles.secandaryText, { color: c.text.secondary }]}>
           Enter your email for the verification process. We will send 6 digits
           code to your email.
@@ -65,8 +67,7 @@ const forgetPassword = () => {
           required: true,
         }}
         render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error, isDirty },
+          field: { onChange, value },
         }) => {
           return (
             <Input
@@ -88,7 +89,8 @@ const forgetPassword = () => {
             fontFamily: "generalMedium",
           }}
         >
-          {(forgetError as any)?.response?.data?.message || "Something went wrong"}
+          {(forgetError as any)?.response?.data?.message ||
+            "Something went wrong"}
         </Text>
       )}
 
@@ -97,7 +99,9 @@ const forgetPassword = () => {
         style={[
           styles.createButton,
           { borderColor: c.border.default },
-          errors && !isValid ? { backgroundColor: c.interactive.disabled } : { backgroundColor: c.button.primaryBg },
+          errors && !isValid
+            ? { backgroundColor: c.interactive.disabled }
+            : { backgroundColor: c.button.primaryBg },
         ]}
         disabled={errors && !isValid}
       >
@@ -124,7 +128,7 @@ const forgetPassword = () => {
   );
 };
 
-export default forgetPassword;
+export default ForgetPassword;
 
 const styles = StyleSheet.create({
   headerText: {

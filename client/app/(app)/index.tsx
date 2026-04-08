@@ -1,21 +1,17 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import QrContent from "@/components/QR/qrContent";
 import QrContentWS from "@/components/QR/qrContentWS";
 import { useSession } from "@/components/providers/SessionProvider";
+import useGetMe from "@/hooks/useGetMe";
 import useTheme from "@/hooks/useTheme";
 import { Colors } from "@/constants/theme";
 
 export default function HomeScreen() {
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
-  const { signOut } = useSession();
+  const { session } = useSession();
+  const { data: user } = useGetMe(session);
 
   return (
     <ScrollView
@@ -27,8 +23,30 @@ export default function HomeScreen() {
       }}
       contentContainerStyle={{ gap: 16, paddingBottom: 200 }}
     >
-      <View>
+      <View style={{ marginBottom: 16 }}>
+        <Text
+          style={{
+            color: c.text.secondary,
+            fontSize: 18,
+            fontFamily: "generalMedium",
+          }}
+        >
+          Welcome back,
+        </Text>
         <Text style={[styles.headerText, { color: c.text.primary }]}>
+          {user?.name || "User"} 👋
+        </Text>
+      </View>
+
+      <View>
+        <Text
+          style={{
+            color: c.text.primary,
+            fontSize: 22,
+            fontFamily: "generalSemiBold",
+            letterSpacing: -0.5,
+          }}
+        >
           Your current QR
         </Text>
         <Text style={styles.secondaryText}>

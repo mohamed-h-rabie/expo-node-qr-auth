@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   Platform,
   Modal,
-  Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Input from "@/components/ui/Input";

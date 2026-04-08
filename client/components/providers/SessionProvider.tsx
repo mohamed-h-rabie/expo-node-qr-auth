@@ -1,6 +1,6 @@
 import { useStorageState } from "@/hooks/useStorageState";
 import { useRouter } from "expo-router";
-import { use, createContext, type PropsWithChildren, useEffect } from "react";
+import { use, createContext, type PropsWithChildren, useEffect, useCallback } from "react";
 const AuthContext = createContext<{
   signIn: (token: string, tokenExpiry?: number | null) => void;
   signOut: () => void;
@@ -27,13 +27,15 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("token");
   const [[isLoadingExpiry, tokenExpiry], setTokenExpiry] =
     useStorageState("tokenExpiry");
+
   const router = useRouter();
-  const signOut = () => {
+
+  const signOut = useCallback(() => {
     console.log("[auth] signOut() called");
     setSession(null);
     setTokenExpiry(null);
     router.replace("/sign-in");
-  };
+  }, [setSession, setTokenExpiry, router]);
 
   useEffect(() => {
     console.log("[auth] state", {
@@ -73,7 +75,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         clearTimeout(timeoutId);
       };
     }
-  }, [session, tokenExpiry]);
+  }, [session, tokenExpiry, isLoading, isLoadingExpiry, signOut]);
 
   return (
     <AuthContext.Provider

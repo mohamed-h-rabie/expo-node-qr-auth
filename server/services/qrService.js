@@ -10,6 +10,6 @@ setInterval(() => {
     uuid: randomUUID(),
     generatedAt: Date.now(),
   };
-}, 60_000);
+}, 10_000);
 
 export const getCurrentQR = () => currentQR;

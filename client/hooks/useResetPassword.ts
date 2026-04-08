@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useRouter } from "expo-router";
 
 import apiClient from "@/api/index";
@@ -21,7 +20,7 @@ const useResetPassword = () => {
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: resetPassword,
-    onSuccess: async (data) => {
+    onSuccess: async (_data) => {
       router.replace("/sign-in");
     },
   });

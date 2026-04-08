@@ -1,5 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, View } from "react-native";
-import { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  View,
+} from "react-native";
+import React from "react";
 
 import { ThemedText } from "@/components/themed-text";
 import { useSession } from "@/components/providers/SessionProvider";
@@ -9,31 +15,10 @@ import useTheme from "@/hooks/useTheme";
 import { Colors } from "@/constants/theme";
 
 const QrContent = () => {
-  const { session, signOut } = useSession();
+  const { session } = useSession();
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
   const { qr, isLoading, error, refetch } = useCurrentQR(session);
-
-  const [timeLeft, setTimeLeft] = useState(60);
-
-  useEffect(() => {
-    // Synchronize countdown with server timestamp
-    const calculateTimeLeft = () => {
-      if (qr?.generatedAt) {
-        const elapsed = Math.floor((Date.now() - qr.generatedAt) / 1000);
-        const remaining = Math.max(0, 60 - (elapsed % 60));
-        setTimeLeft(remaining);
-      }
-    };
-
-    calculateTimeLeft();
-    const timer = setInterval(() => {
-      calculateTimeLeft();
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [qr?.generatedAt, qr?.uuid]);
-
   if (error) {
     return (
       <View style={styles.qrCenter}>
@@ -68,16 +53,6 @@ const QrContent = () => {
       <View style={styles.qrBox}>
         <QRCode value={qr.uuid} size={220} />
       </View>
-      <Text
-        style={{
-          color: c.text.primary,
-          fontSize: 15,
-          fontFamily: "generalMedium",
-          marginTop: 10,
-        }}
-      >
-        (HTTP) Auto-refreshes in {timeLeft}s
-      </Text>
     </View>
   );
 };

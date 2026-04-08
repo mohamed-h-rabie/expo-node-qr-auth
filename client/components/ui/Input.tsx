@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { CircleAlert, CircleCheck, Eye, EyeOff } from "lucide-react-native";
 import useTheme from "@/hooks/useTheme";
 import { Colors } from "@/constants/theme";

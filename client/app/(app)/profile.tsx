@@ -7,28 +7,18 @@ import {
 } from "react-native";
 import React from "react";
 import { useSession } from "@/components/providers/SessionProvider";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useGetMe from "@/hooks/useGetMe";
 import useTheme from "@/hooks/useTheme";
 import { Colors } from "@/constants/theme";
 
-const SERVER_URL = "http://localhost:3000";
+
 
 const Profile = () => {
   const { session, signOut } = useSession();
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["user", "me"],
-    queryFn: async () => {
-      const res = await axios.get(`${SERVER_URL}/api/users/me`, {
-        headers: { Authorization: `Bearer ${session}` },
-      });
-      return res.data.data;
-    },
-    enabled: !!session,
-  });
+  const { data, isLoading, error } = useGetMe(session);
 
   if (isLoading) {
     return (

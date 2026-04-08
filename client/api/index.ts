@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Platform } from "react-native";
 
 // Use your machine's local IP address for both Android and iOS physical devices.
 // For Android emulator, you can also use 10.0.2.2

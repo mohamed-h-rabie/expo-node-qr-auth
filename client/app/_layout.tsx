@@ -13,7 +13,8 @@ import useTheme from "@/hooks/useTheme";
 import { SplashScreenController } from "@/components/splashScreen";
 import { useEffect, useState } from "react";
 import ThemeProvider from "@/constants/ThemeProvider";
-import { DarkTheme, DefaultTheme } from "@/constants/theme";
+
+import NetworkBanner from "@/components/ui/NetworkBanner";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -88,8 +89,6 @@ function RootNavigator() {
     </Stack>
   );
 }
-
-import NetworkBanner from "@/components/ui/NetworkBanner";
 
 export default function RootLayout() {
   const queryClient = new QueryClient();

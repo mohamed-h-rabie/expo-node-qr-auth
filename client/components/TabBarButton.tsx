@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Alert } from "react-native";
+import { Pressable } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,12 +8,8 @@ import Animated, {
 import React, { useEffect } from "react";
 import {
   CircleUser,
-  Heart,
   Home,
-  HomeIcon,
-  SearchIcon,
   Settings,
-  ShoppingCart,
 } from "lucide-react-native";
 const icons = {
   profile: (props: any) => <CircleUser name="profile" size={24} {...props} />,
@@ -27,14 +23,12 @@ type BottomTabBarButtonProps = {
   onPress: () => void;
   onLongPress: () => void;
   label: string;
-  height: number;
 };
 export function TabBarButton({
   routerName,
   isFocused,
   onPress,
   label,
-  height,
 }: BottomTabBarButtonProps) {
   const scale = useSharedValue(0);
 

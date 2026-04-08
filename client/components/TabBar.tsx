@@ -1,10 +1,7 @@
 import {
   Alert,
   LayoutChangeEvent,
-  Pressable,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   Vibration,
   View,
 } from "react-native";
@@ -97,7 +94,6 @@ export default function TabBar({
             isFocused={isFocused}
             routerName={route.name}
             label={label}
-            height={dimensions.height}
           />
         );
       })}

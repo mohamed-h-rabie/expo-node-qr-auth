@@ -2,13 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
 import * as Network from "expo-network";
 import { WifiOff } from "lucide-react-native";
-import useTheme from "@/hooks/useTheme";
-import { Colors } from "@/constants/theme";
 
 const NetworkBanner = () => {
   const [isOffline, setIsOffline] = useState(false);
-  const { theme } = useTheme();
-  const c = theme.dark ? Colors.dark : Colors.light;
   const slideAnim = React.useRef(new Animated.Value(-100)).current;
 
   useEffect(() => {
@@ -28,7 +24,7 @@ const NetworkBanner = () => {
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [isOffline]);
+  }, [isOffline, slideAnim]);
 
   return (
     <Animated.View

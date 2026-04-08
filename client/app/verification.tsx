@@ -12,7 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { OtpInput } from "react-native-otp-entry";
 import useVerificate from "@/hooks/useVerificate";
-import userResendOTP from "@/hooks/userResendOTP";
+import useResendOTP from "@/hooks/userResendOTP";
 import useVerificateResetPassword from "@/hooks/useVerificateResetPassword";
 import useTheme from "@/hooks/useTheme";
 import { Colors } from "@/constants/theme";
@@ -27,7 +27,7 @@ const Verification = () => {
   const { mutate: verificate, isPending, error: verifyError } = useVerificate();
   const { mutate: verificateResetPassword, isPending: isPendingResetPassword, error: resetVerifyError } =
     useVerificateResetPassword();
-  const { mutate: resendCode, isPending: isPendingResend, error: resendError } = userResendOTP();
+  const { mutate: resendCode, error: resendError } = useResendOTP();
   console.log(email);
 
   console.log(type);
@@ -56,17 +56,8 @@ const Verification = () => {
     getEmail();
     return () => {
       // Cleanup function runs on unmount
-      const clearEmail = async () => {
-        try {
-          await SecureStore.setItemAsync("email", "");
-          setEmail("");
-        } catch (error) {
-          console.log("Error clearing email:", error);
-        }
-      };
-      // clearEmail();
     };
-  }, []);
+  }, [router]);
   return (
     <View
       style={{

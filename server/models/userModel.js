@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { type } from "os";
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -28,7 +27,8 @@ const userSchema = new mongoose.Schema({
         if (v.length > 50) return true; // Loose check for hashed password
         return /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).+/.test(v);
       },
-      message: "Password must contain uppercase, lowercase, number and special character",
+      message:
+        "Password must contain uppercase, lowercase, number and special character",
     },
     select: false,
   },

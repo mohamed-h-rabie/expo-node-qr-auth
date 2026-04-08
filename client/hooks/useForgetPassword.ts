@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 

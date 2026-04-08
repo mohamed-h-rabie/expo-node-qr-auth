@@ -2,14 +2,13 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import Input from "@/components/ui/Input";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { email, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
 import useSignUp from "@/hooks/useSignUp";

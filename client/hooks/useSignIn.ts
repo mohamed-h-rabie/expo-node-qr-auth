@@ -1,7 +1,5 @@
 import { useSession } from "@/components/providers/SessionProvider";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
 
@@ -19,7 +17,6 @@ const signIn = async (data: { email: string; password: string }) => {
 };
 
 const useSignIn = () => {
-  const router = useRouter();
   const { signIn: saveToken } = useSession();
 
   const mutation = useMutation({
@@ -57,7 +54,7 @@ const useSignIn = () => {
                 await SecureStore.setItemAsync("biometricEnabled", "false");
               },
             },
-          ]
+          ],
         );
       }
 

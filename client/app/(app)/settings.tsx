@@ -94,7 +94,7 @@ const SettingsScreen = () => {
         </View>
 
         <Text style={[styles.hint, { color: c.text.secondary }]}>
-          "System" follows your device's appearance settings.
+          &quot;System&quot; follows your device&apos;s appearance settings.
         </Text>
       </View>
     </SafeAreaView>

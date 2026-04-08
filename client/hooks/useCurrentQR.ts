@@ -1,12 +1,11 @@
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+
+import apiClient from "@/api/index";
 
 type CurrentQR = {
   uuid: string;
   generatedAt: number;
 };
-
-import apiClient from "@/api/index";
 
 export function useCurrentQR(token?: string | null) {
   console.log(token);
@@ -14,7 +13,7 @@ export function useCurrentQR(token?: string | null) {
   const query = useQuery({
     queryKey: ["qr", "current"],
     enabled: !!token,
-    refetchInterval: 60_000,
+    refetchInterval: 10_000,
     queryFn: async (): Promise<CurrentQR> => {
       const res = await apiClient.get(`/qr/current`, {
         headers: { Authorization: `Bearer ${token}` },

@@ -3,20 +3,19 @@ import Logo from "../assets/images/Vector.svg";
 import Wave from "../assets/images/wave.svg";
 
 import GradientCircle from "@/GradientCircle";
-import { useEffect, useState } from "react";
+import { useEffect, useCallback } from "react";
 import * as SecureStore from "expo-secure-store";
 import * as LocalAuthentication from "expo-local-authentication";
-import { BackHandler } from "react-native";
 
 export function SplashScreenController({
   setUnlocked,
 }: {
   setUnlocked: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const auth = async () => {
+  const auth = useCallback(async () => {
     const bioEnabled = await SecureStore.getItemAsync("biometricEnabled");
     const token = await SecureStore.getItemAsync("token");
-    
+
     console.log(token, typeof bioEnabled);
 
     if (bioEnabled === "true" && token) {
@@ -36,18 +35,18 @@ export function SplashScreenController({
               text: "Try Again",
               onPress: () => auth(), // 👈 run again!
             },
-          ]
+          ],
         );
       }
     } else {
       // first-time login or user didn't enable biometric
       setUnlocked(true);
     }
-  };
+  }, [setUnlocked]);
 
   useEffect(() => {
     auth();
-  }, []);
+  }, [auth]);
   return (
     <View
       style={{

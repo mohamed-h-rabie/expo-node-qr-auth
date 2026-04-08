@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -22,11 +21,11 @@ const signInSchema = z.object({
 });
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
-const signIn = () => {
+const SignIn = () => {
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: signIn, isPending, error: signInError } = useSignIn();
+  const { mutate: handleSignIn, isPending, error: signInError } = useSignIn();
   const {
     control,
     handleSubmit,
@@ -40,7 +39,7 @@ const signIn = () => {
     },
   });
   const onSubmit: SubmitHandler<SignInSchemaType> = (data: SignInSchemaType) => {
-    signIn(data);
+    handleSignIn(data);
   };
 
   return (
@@ -64,7 +63,7 @@ const signIn = () => {
           required: true,
         }}
         render={({
-          field: { onChange, onBlur, value },
+          field: { onChange, value },
           fieldState: { error, isDirty },
         }) => {
           const isSuccess = !error && isDirty;
@@ -197,7 +196,7 @@ const signIn = () => {
   );
 };
 
-export default signIn;
+export default SignIn;
 
 const styles = StyleSheet.create({
   headerText: {

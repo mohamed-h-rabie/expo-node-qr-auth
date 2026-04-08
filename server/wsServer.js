@@ -40,7 +40,7 @@ export function setupWSS(server) {
       ws.isAlive = false;
       ws.ping();
     });
-  }, 60_000);
+  }, 10_000);
 
   wss.on("close", () => clearInterval(heartbeat));
 
@@ -51,14 +51,16 @@ export function setupWSS(server) {
     if (currentQR.uuid !== lastSentUuid) {
       lastSentUuid = currentQR.uuid;
       const payload = JSON.stringify(currentQR);
-      console.log("Broadcasting new QR via WS:", currentQR.uuid);
 
-      // 2. Use 'wss.clients' to reach ALL connected clients
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(payload);
-        }
-      });
+      // Only log and broadcast if there are connected clients
+      if (wss.clients.size > 0) {
+        console.log(`Broadcasting new QR to ${wss.clients.size} client(s):`, currentQR.uuid);
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(payload);
+          }
+        });
+      }
     }
   }, 1000);
 }
